@@ -1,0 +1,32 @@
+/* frontend styling (omitted here for brevity in patch) */
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary-color: #64748b;
+  --success-color: #22c55e;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #06b6d4;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --radius: 8px;
+}
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: var(--bg-color); color: var(--text-primary); }
+.header { background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 24px; position: sticky; top:0 }
+.header-content { max-width: 1400px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; height:64px }
+.nav-link { padding:8px 12px; text-decoration:none; color:var(--text-secondary) }
+.nav-link.active { background: var(--primary-color); color:#fff }
+.main-content { padding:24px; max-width:1400px; margin:0 auto }
+.stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:16px }
+.stats-card { background: var(--card-bg); padding:20px; border-radius:var(--radius); box-shadow:var(--shadow) }
+.data-table th, .data-table td { padding:12px 16px; border-bottom:1px solid var(--border-color) }
+.ticker-badge { background:var(--primary-color); color:#fff; padding:2px 8px; border-radius:4px }
+.btn { padding:8px 16px; border-radius:8px; cursor:pointer }
+.btn-primary { background:var(--primary-color); color:#fff }
+.loading-spinner { padding:48px; text-align:center }

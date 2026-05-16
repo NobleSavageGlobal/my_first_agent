@@ -1,0 +1,51 @@
+services:
+  backend:
+    build: ./backend
+    container_name: agent_puller_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://agent_puller:agent_puller_secret@postgres:5432/agent_puller_db
+      - SEC_API_KEY=${SEC_API_KEY:-}
+      - LOG_LEVEL=INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  frontend:
+    build: ./frontend
+    container_name: agent_puller_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: agent_puller_postgres
+    environment:
+      - POSTGRES_USER=agent_puller
+      - POSTGRES_PASSWORD=agent_puller_secret
+      - POSTGRES_DB=agent_puller_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agent_puller"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
